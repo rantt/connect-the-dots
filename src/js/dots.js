@@ -57,7 +57,7 @@ Dots.prototype = {
       // This is so the player can choose a different path 
       this.scoreList.pop();
       this.selected = dot;
-    }else if (this.scoreList.indexOf(dot) > -1) {
+    }else if (this.scoreList.indexOf(dot) > -1 && this.scoreList.length > 3) {
       // If the Item is in the list (but isn't the previous item) then you've made a loop
       this.looped = true;
     }else if (this.isAdjacent(this.selected, dot) && this.selected.tint === dot.tint ) {
