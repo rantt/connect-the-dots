@@ -25,8 +25,8 @@ Game.Play = function(game) {
 Game.Play.prototype = {
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
-    // this.game.stage.backgroundColor = '#000';
-    this.game.stage.backgroundColor = '#dcdcdc';
+    this.game.stage.backgroundColor = '#FFF';
+    // this.game.stage.backgroundColor = '#dcdcdc';
     
     this.game.add.sprite(0, 0, this.circlebmd);
 

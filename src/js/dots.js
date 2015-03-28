@@ -14,7 +14,7 @@ var Dots = function(game) {
 
 Dots.prototype = {
   create: function() {
-    var circSize = 32;
+    var circSize = 42;
     this.circlebmd = this.game.add.bitmapData(circSize, circSize);
     this.circlebmd.circle(circSize/2,circSize/2,circSize/2,'#FFFFFF');
 
@@ -23,14 +23,15 @@ Dots.prototype = {
     this.dots.setAll('anchor.x', 0.5);
     this.dots.setAll('anchor.y', 0.5);
 
+    this.linebmd = this.game.add.bitmapData(800, 600);
+    this.linebmd.ctx.lineWidth = "4";
+    this.linebmd.ctx.strokeColor = "#000000";
+    this.linebmd.ctx.stroke();
+
+    this.guideLine = this.game.add.sprite(0, 0, this.linebmd);
+
     this.colors = [0xff0000, 0x0000ff, 0xffff00, 0x00ffff, 0x00ff00];
   },  
-  // update: function() {
-    // this.scoreList.forEach(function(dot) {
-    //   this.console('blah'+dot._id);
-    //   this.game.add.tween(dot).to({y: dot.y+32},300).start();
-    // },this);
-  // },
   initialBoard: function() {
     this.board = [];
     for(var i = 0;i < this.boardWidth; i++) {
@@ -46,11 +47,10 @@ Dots.prototype = {
   },
   clickDot: function(dot) {
     this.selected = dot;
-    // this.t = this.game.add.tween(dot.scale).to({x: 0.5, y: 0.5}, 300, Phaser.Easing.Linear.None).to({x: 1, y: 1},300, Phaser.Easing.Linear.None).start().loop();
     this.scoreList.push(dot);
   },
   overDot: function(dot) {
-
+    if (this.selected === null) {return;} 
 
     if (this.scoreList[this.scoreList.length - 2] === dot) {
       // If you move your mouse back to you're previous match, deselect you're last match
@@ -67,22 +67,38 @@ Dots.prototype = {
         this.scoreList.push(dot);
       }
     }
-    this.scoreList.forEach(function(dot) {
-      dot.tween = this.game.add.tween(dot.scale).to({x: 0.75, y: 0.75}, 300, Phaser.Easing.Linear.None).start();
-    },this);
+
+    this.linebmd.clear();
+    this.linebmd.ctx.beginPath();
+
+    console.log('#'+("00000" + this.selected.tint.toString(16)).substr(-6));
+
+    this.linebmd.ctx.strokeStyle = '#'+("00000" + this.selected.tint.toString(16)).substr(-6);
+    this.linebmd.ctx.moveTo(this.scoreList[0].x, this.scoreList[0].y);
+
+    for(var i = 0;i < this.scoreList.length-1;i++) {
+      var next = this.scoreList[i+1]
+      console.log('x'+next.x+' y'+next.y);
+      this.linebmd.ctx.lineTo(next.x, next.y) 
+    }
+    if (this.looped === true) {
+      this.linebmd.ctx.lineTo(dot.x, dot.y) 
+    }
+
+    this.linebmd.ctx.lineWidth = 4;
+    this.linebmd.ctx.stroke();
+    this.linebmd.ctx.closePath();
 
   },
   upDot: function(dot) {
-    
-    if (this.looped) {
-      console.log('im a loop');
+    this.linebmd.clear();
+
+    if (this.looped === true) {
       this.looper();
     }
     this.score += this.scorePoints();
     this.scoreList = [];
     this.selected = null;
-    this.lopped = false;
-    // this.game.tweens.remove(this.t);
     this.drawBoard();
   },
   looper: function() {
@@ -95,7 +111,7 @@ Dots.prototype = {
         }
       }
     }
-   
+    this.looped = false;
   },
   scorePoints: function() {
     if (this.scoreList.length === 1) {return 0;}
@@ -108,7 +124,6 @@ Dots.prototype = {
       for(var j = 0; j < this.boardHeight; j++) {
         var dot = this.board[i][j];
         if (listIds.indexOf(dot._id) > -1) {
-          // console.log('killing'+dot.tint);
           dot.kill();
           this.board[i].splice(j,1);
           this.board[i].push(this.addDot());
@@ -128,21 +143,17 @@ Dots.prototype = {
     dot.events.onInputDown.add(this.clickDot, this);
     dot.events.onInputUp.add(this.upDot, this);
     dot.events.onInputOver.add(this.overDot, this);
-    // sprite.events.onInputOut.add( icon_out, {} );
     dot.reset(this.game.world.centerX, -this.game.world.centerY);
     this.idCount++;
     return dot;
   },
   drawBoard: function() {
-    // if (this.swapping) {return;}
-    // this.swapping = true;
 
     for(var i = 0; i < this.boardWidth;i++) {
       for(var j = 0;j < this.boardHeight;j++) {
         var xpos = i*64 + 80;
         var ypos = 500 - j*64;
         var dot = this.board[i][j];
-        // this.game.tweens.remove(dot.tween);
         dot.scale.x = 1;
         dot.scale.y = 1;
         if (dot.x !== xpos || dot.y !== ypos) {
