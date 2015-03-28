@@ -25,6 +25,10 @@ Game.Play = function(game) {
 Game.Play.prototype = {
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
+    // this.game.stage.backgroundColor = '#000';
+    this.game.stage.backgroundColor = '#dcdcdc';
+    
+    this.game.add.sprite(0, 0, this.circlebmd);
 
     // // Music
     // this.music = this.game.add.sound('music');
@@ -38,6 +42,9 @@ Game.Play.prototype = {
     dKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
     // muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
 
+    this.dots = new Dots(this.game);
+    this.dots.create();
+    this.dots.initialBoard();
   },
 
   update: function() {
@@ -58,5 +65,10 @@ Game.Play.prototype = {
   // render: function() {
   //   game.debug.text('Health: ' + tri.health, 32, 96);
   // }
+  render: function() {
+    this.game.debug.text('this.selected ' + this.dots.selected, 32, 32);
+    this.game.debug.text('this.scoreList ' + this.dots.scoreList, 32, 64);
+    this.game.debug.text('this.score' + this.dots.score, 32, 96);
+  }
 
 };
