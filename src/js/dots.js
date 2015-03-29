@@ -50,18 +50,20 @@ Dots.prototype = {
     this.scoreList.push(dot);
   },
   overDot: function(dot) {
-    if (this.selected === null) {return;} 
+    if (this.selected === null || !this.isAdjacent(this.selected, dot)) {return;} 
 
     if (this.scoreList[this.scoreList.length - 2] === dot) {
       // If you move your mouse back to you're previous match, deselect you're last match
       // This is so the player can choose a different path 
       this.scoreList.pop();
       this.selected = dot;
-    }else if (this.scoreList.indexOf(dot) > -1 && this.scoreList.length > 3) {
+      this.looped = false;
+    }else if (this.scoreList.indexOf(dot) > -1 && this.scoreList.length > 3 ) {
       // If the Item is in the list (but isn't the previous item) then you've made a loop
       this.looped = true;
-    }else if (this.isAdjacent(this.selected, dot) && this.selected.tint === dot.tint ) {
-      console.log('over'+dot._id);
+    }else if (this.selected.tint === dot.tint ) {
+      // console.log('over'+dot._id);
+      this.looped = false;
       this.selected = dot; 
       if (this.scoreList.indexOf(dot) === -1) {
         this.scoreList.push(dot);
@@ -71,18 +73,18 @@ Dots.prototype = {
     this.linebmd.clear();
     this.linebmd.ctx.beginPath();
 
-    console.log('#'+("00000" + this.selected.tint.toString(16)).substr(-6));
+    // console.log('#'+("00000" + this.selected.tint.toString(16)).substr(-6));
 
     this.linebmd.ctx.strokeStyle = '#'+("00000" + this.selected.tint.toString(16)).substr(-6);
     this.linebmd.ctx.moveTo(this.scoreList[0].x, this.scoreList[0].y);
 
     for(var i = 0;i < this.scoreList.length-1;i++) {
-      var next = this.scoreList[i+1]
-      console.log('x'+next.x+' y'+next.y);
-      this.linebmd.ctx.lineTo(next.x, next.y) 
+      var next = this.scoreList[i+1];
+      // console.log('x'+next.x+' y'+next.y);
+      this.linebmd.ctx.lineTo(next.x, next.y);
     }
     if (this.looped === true) {
-      this.linebmd.ctx.lineTo(dot.x, dot.y) 
+      this.linebmd.ctx.lineTo(dot.x, dot.y);
     }
 
     this.linebmd.ctx.lineWidth = 4;
@@ -105,7 +107,7 @@ Dots.prototype = {
      for(var i = 0; i < this.boardWidth; i++) {
       for(var j = 0; j < this.boardHeight; j++) {
         var dot = this.board[i][j];
-        console.log('color'+dot.tint);
+        // console.log('color'+dot.tint);
         if (this.selected.tint === dot.tint) {
           this.scoreList.push(dot);
         }
@@ -148,6 +150,8 @@ Dots.prototype = {
     return dot;
   },
   drawBoard: function() {
+    // if (this.drawing === true) {return;}
+    // this.drawing = true;
 
     for(var i = 0; i < this.boardWidth;i++) {
       for(var j = 0;j < this.boardHeight;j++) {
@@ -161,6 +165,9 @@ Dots.prototype = {
         }
       }
     }
+    // this.t.onComplete.add(function() {
+    //   this.drawing = false;
+    // }, this);
   },
   getPosition: function(dot) {
     //Iterate through game board until the the dot is found
@@ -191,4 +198,4 @@ Dots.prototype = {
 
   },
 
-}
+};
