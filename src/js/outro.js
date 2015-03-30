@@ -102,7 +102,7 @@ Game.Outro.prototype = {
       
   },
   twitter: function() {
-    window.open('http://twitter.com/share?text=My+best+score+is+'+this.highestScore+'+playing+Connect+The+Dots+See+if+you+can+beat+it.+at&via=rantt_&url=http://www.divideby5.com/games/ctd/&hashtags=1GAM', '_blank');
+    window.open('http://twitter.com/share?text=My+best+score+is+'+this.highestScore+'+playing+Connect+The+Dots+See+if+you+can+beat+it.+at&via=rantt_&url=http://www.divideby5.com/games/ctd/&hashtags=ConnectTheDots,1GAM', '_blank');
   },
 
   update: function() {
