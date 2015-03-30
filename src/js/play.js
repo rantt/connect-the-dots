@@ -62,7 +62,7 @@ Game.Play.prototype = {
     if (this.dots.moveCount === this.dots.moveLimit) {
       Game.score = this.dots.score;
       if (this.dots.score > this.highestScore) {
-        localStorage.setItem('highestScore', this.dots.score);
+        localStorage.setItem('dotsHighestScore', this.dots.score);
       }
       this.game.state.start('Outro');
     }
