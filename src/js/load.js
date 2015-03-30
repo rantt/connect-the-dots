@@ -23,6 +23,17 @@ Game.Boot.prototype = {
 
     this.game.load.bitmapFont('minecraftia','assets/fonts/font.png','assets/fonts/font.xml');
     this.game.load.bitmapFont('arcade','assets/fonts/arcade.png','assets/fonts/arcade.xml');
+
+    //Automatically Scale to fit available screen
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.game.scale.maxHeight = window.innerHeight;
+    this.game.scale.maxWidth = window.innerHeight*(Game.w/Game.h);
+
+    this.game.stage.scale.pageAlignHorizontally = true;
+    this.game.stage.scale.pageAlignVeritcally = true;
+    this.game.scale.setScreenSize(true);
+
+
   },
   create: function() {
    this.game.state.start('Load');

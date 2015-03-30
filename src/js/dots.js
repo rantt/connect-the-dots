@@ -17,20 +17,25 @@ var Dots = function(game) {
 
 
 Dots.prototype = {
-  create: function() {
+  preload: function() {
     var circSize = 32;
     this.circlebmd = this.game.add.bitmapData(circSize, circSize);
     this.circlebmd.circle(circSize/2,circSize/2,circSize/2,'#FFFFFF');
 
+    // this.linebmd = this.game.add.bitmapData(800, 600);
+    this.linebmd = this.game.add.bitmapData(800, 600);
+    this.linebmd.ctx.lineWidth = "4";
+    this.linebmd.ctx.strokeColor = "#000000";
+    this.linebmd.ctx.stroke();
+
+
+  },
+  create: function() {
     this.dots = this.game.add.group();
     this.dots.createMultiple(64, this.circlebmd);
     this.dots.setAll('anchor.x', 0.5);
     this.dots.setAll('anchor.y', 0.5);
 
-    this.linebmd = this.game.add.bitmapData(800, 600);
-    this.linebmd.ctx.lineWidth = "4";
-    this.linebmd.ctx.strokeColor = "#000000";
-    this.linebmd.ctx.stroke();
 
     this.guideLine = this.game.add.sprite(0, 0, this.linebmd);
 
