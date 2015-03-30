@@ -10,13 +10,19 @@ Game.Boot = function(game) {
   this.game = game;
 };
 
+if (localStorage.getItem('highestScore') === null) {
+  localStorage.setItem('highestScore', 0);
+}
+
 Game.Boot.prototype = {
   preload: function() {
     // console.log('blah'+Game.w);
-		this.game.stage.backgroundColor = '#FFF';
 		this.game.load.image('loading', 'assets/images/loading.png');
 		this.game.load.image('title', 'assets/images/title.png');
 		this.game.load.image('instructions', 'assets/images/instructions.png');
+
+    this.game.load.bitmapFont('minecraftia','assets/fonts/font.png','assets/fonts/font.xml');
+    this.game.load.bitmapFont('arcade','assets/fonts/arcade.png','assets/fonts/arcade.xml');
   },
   create: function() {
    this.game.state.start('Load');

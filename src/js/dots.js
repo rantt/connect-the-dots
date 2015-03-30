@@ -2,19 +2,23 @@ var Dots = function(game) {
   this.game = game;
 
   this.boardWidth = 8;
-  this.boardHeight = 7;
+  this.boardHeight = 8;
 
   this.board = [];
   this.idCount = 0;
   this.selected = null;
   this.scoreList = [];
   this.score = 0;
+
+  this.moveCount = 0;
+  this.moveLimit = 20;
+
 };
 
 
 Dots.prototype = {
   create: function() {
-    var circSize = 42;
+    var circSize = 32;
     this.circlebmd = this.game.add.bitmapData(circSize, circSize);
     this.circlebmd.circle(circSize/2,circSize/2,circSize/2,'#FFFFFF');
 
@@ -62,7 +66,6 @@ Dots.prototype = {
       // If the Item is in the list (but isn't the previous item) then you've made a loop
       this.looped = true;
     }else if (this.selected.tint === dot.tint ) {
-      // console.log('over'+dot._id);
       this.looped = false;
       this.selected = dot; 
       if (this.scoreList.indexOf(dot) === -1) {
@@ -80,9 +83,9 @@ Dots.prototype = {
 
     for(var i = 0;i < this.scoreList.length-1;i++) {
       var next = this.scoreList[i+1];
-      // console.log('x'+next.x+' y'+next.y);
       this.linebmd.ctx.lineTo(next.x, next.y);
     }
+
     if (this.looped === true) {
       this.linebmd.ctx.lineTo(dot.x, dot.y);
     }
@@ -107,7 +110,6 @@ Dots.prototype = {
      for(var i = 0; i < this.boardWidth; i++) {
       for(var j = 0; j < this.boardHeight; j++) {
         var dot = this.board[i][j];
-        // console.log('color'+dot.tint);
         if (this.selected.tint === dot.tint) {
           this.scoreList.push(dot);
         }
@@ -133,6 +135,8 @@ Dots.prototype = {
         }
       }
     }
+
+    this.moveCount += 1;
     return this.scoreList.length;
   },
   addDot: function() {
@@ -150,13 +154,11 @@ Dots.prototype = {
     return dot;
   },
   drawBoard: function() {
-    // if (this.drawing === true) {return;}
-    // this.drawing = true;
 
     for(var i = 0; i < this.boardWidth;i++) {
       for(var j = 0;j < this.boardHeight;j++) {
-        var xpos = i*64 + 80;
-        var ypos = 500 - j*64;
+        var xpos = i*64 + 160;
+        var ypos = 550 - j*64;
         var dot = this.board[i][j];
         dot.scale.x = 1;
         dot.scale.y = 1;
@@ -165,9 +167,6 @@ Dots.prototype = {
         }
       }
     }
-    // this.t.onComplete.add(function() {
-    //   this.drawing = false;
-    // }, this);
   },
   getPosition: function(dot) {
     //Iterate through game board until the the dot is found

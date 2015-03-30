@@ -25,9 +25,11 @@ Game.Play = function(game) {
 Game.Play.prototype = {
   create: function() {
     this.game.world.setBounds(0, 0 ,Game.w ,Game.h);
-    this.game.stage.backgroundColor = '#FFF';
+    this.game.stage.backgroundColor = '#000000';
     // this.game.stage.backgroundColor = '#dcdcdc';
     
+    this.highestScore = JSON.parse(localStorage.getItem('highestScore'));
+
     this.game.add.sprite(0, 0, this.circlebmd);
 
     // // Music
@@ -45,12 +47,21 @@ Game.Play.prototype = {
     this.dots = new Dots(this.game);
     this.dots.create();
     this.dots.initialBoard();
+
+    this.moveText = this.game.add.bitmapText(Game.w - 120 , 16, 'minecraftia','0/'+this.dots.moveLimit, 32);
+    this.scoreText = this.game.add.bitmapText(20 , 16, 'minecraftia','Score: '+this.dots.score, 32);
   },
 
   update: function() {
+    this.scoreText.setText('Score: ' + this.dots.score);
+    this.moveText.setText(this.dots.moveCount+'/'+this.dots.moveLimit);
 
-    // // Toggle Music
-    // muteKey.onDown.add(this.toggleMute, this);
+    if (this.dots.moveCount === this.dots.moveLimit) {
+      Game.score = this.dots.score;
+      if (this.dots.score > this.highestScore) {
+        localStorage.setItem('highestScore', this.dots.score);
+      }
+    }
 
   },
   // toggleMute: function() {
