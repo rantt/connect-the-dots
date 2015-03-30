@@ -32,7 +32,7 @@ Game.Play.prototype = {
     this.game.stage.backgroundColor = '#000000';
     // this.game.stage.backgroundColor = '#dcdcdc';
     
-    this.highestScore = JSON.parse(localStorage.getItem('highestScore'));
+    this.highestScore = JSON.parse(localStorage.getItem('dotsHighestScore'));
 
     this.game.add.sprite(0, 0, this.circlebmd);
 

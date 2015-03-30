@@ -10,8 +10,8 @@ Game.Boot = function(game) {
   this.game = game;
 };
 
-if (localStorage.getItem('highestScore') === null) {
-  localStorage.setItem('highestScore', 0);
+if (localStorage.getItem('dotsHighestScore') === null) {
+  localStorage.setItem('dotsHighestScore', 0);
 }
 
 Game.Boot.prototype = {
@@ -50,7 +50,7 @@ Game.Load.prototype = {
   preload: function() {
     
     //Debug Plugin
-    this.game.add.plugin(Phaser.Plugin.Debug);
+    // this.game.add.plugin(Phaser.Plugin.Debug);
 
 
     //Plugins

@@ -13,7 +13,7 @@ Game.Outro = function(game) {
 Game.Outro.prototype = {
   create: function() {
     this.game.physics.startSystem(Phaser.ARCADE);
-    this.highestScore = JSON.parse(localStorage.getItem('highestScore'));
+    this.highestScore = JSON.parse(localStorage.getItem('dotsHighestScore'));
 
     this.game.world.setBounds(0, 0 ,800 ,600);
     this.game.stage.backgroundColor = '#000';
