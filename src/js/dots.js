@@ -80,7 +80,6 @@ Dots.prototype = {
     if (this.selected === null || !this.isAdjacent(this.selected, dot)) {return;} 
 
     if (this.scoreList.length < 7) {
-      console.log('con'+this.scoreList.length);
       this.game.sound.play('con'+this.scoreList.length);
     }else {
       this.game.sound.play('con7');
@@ -106,7 +105,6 @@ Dots.prototype = {
     this.linebmd.clear();
     this.linebmd.ctx.beginPath();
 
-    // console.log('#'+("00000" + this.selected.tint.toString(16)).substr(-6));
 
     this.linebmd.ctx.strokeStyle = '#'+("00000" + this.selected.tint.toString(16)).substr(-6);
     this.linebmd.ctx.moveTo(this.scoreList[0].x, this.scoreList[0].y);
