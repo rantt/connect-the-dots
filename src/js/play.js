@@ -64,6 +64,7 @@ Game.Play.prototype = {
       if (this.dots.score > this.highestScore) {
         localStorage.setItem('highestScore', this.dots.score);
       }
+      this.game.state.start('Outro');
     }
 
   },
@@ -79,10 +80,10 @@ Game.Play.prototype = {
   // render: function() {
   //   game.debug.text('Health: ' + tri.health, 32, 96);
   // }
-  render: function() {
-    this.game.debug.text('this.selected ' + this.dots.selected, 32, 32);
-    this.game.debug.text('this.scoreList ' + this.dots.scoreList, 32, 64);
-    this.game.debug.text('this.score' + this.dots.score, 32, 96);
-  }
+  // render: function() {
+  //   this.game.debug.text('this.selected ' + this.dots.selected, 32, 32);
+  //   this.game.debug.text('this.scoreList ' + this.dots.scoreList, 32, 64);
+  //   this.game.debug.text('this.score' + this.dots.score, 32, 96);
+  // }
 
 };

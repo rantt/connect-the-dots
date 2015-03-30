@@ -22,12 +22,30 @@ Dots.prototype = {
     this.circlebmd = this.game.add.bitmapData(circSize, circSize);
     this.circlebmd.circle(circSize/2,circSize/2,circSize/2,'#FFFFFF');
 
+    this.debris = this.game.add.bitmapData(8, 8);
+    this.debris.circle(4,4,4,'#FFFFFF');
+
     // this.linebmd = this.game.add.bitmapData(800, 600);
     this.linebmd = this.game.add.bitmapData(800, 600);
     this.linebmd.ctx.lineWidth = "4";
     this.linebmd.ctx.strokeColor = "#000000";
     this.linebmd.ctx.stroke();
 
+    this.emitter = this.game.add.emitter(0, 0, 100);
+    this.emitter.makeParticles(this.debris);
+    this.emitter.gravity = 500;
+    this.emitter.minParticleSpeed.setTo(-200, -200);
+    this.emitter.maxParticleSpeed.setTo(200, 200);
+
+
+    this.game.load.audio('con1', 'assets/audio/con1.wav');
+    this.game.load.audio('con2', 'assets/audio/con2.wav');
+    this.game.load.audio('con3', 'assets/audio/con3.wav');
+    this.game.load.audio('con4', 'assets/audio/con4.wav');
+    this.game.load.audio('con5', 'assets/audio/con5.wav');
+    this.game.load.audio('con6', 'assets/audio/con6.wav');
+    this.game.load.audio('con7', 'assets/audio/con7.wav');
+    this.game.load.audio('boom', 'assets/audio/boom.wav');
 
   },
   create: function() {
@@ -60,6 +78,13 @@ Dots.prototype = {
   },
   overDot: function(dot) {
     if (this.selected === null || !this.isAdjacent(this.selected, dot)) {return;} 
+
+    if (this.scoreList.length < 7) {
+      console.log('con'+this.scoreList.length);
+      this.game.sound.play('con'+this.scoreList.length);
+    }else {
+      this.game.sound.play('con7');
+    }
 
     if (this.scoreList[this.scoreList.length - 2] === dot) {
       // If you move your mouse back to you're previous match, deselect you're last match
@@ -120,7 +145,6 @@ Dots.prototype = {
         }
       }
     }
-    this.looped = false;
   },
   scorePoints: function() {
     if (this.scoreList.length === 1) {return 0;}
@@ -133,6 +157,10 @@ Dots.prototype = {
       for(var j = 0; j < this.boardHeight; j++) {
         var dot = this.board[i][j];
         if (listIds.indexOf(dot._id) > -1) {
+          if (this.looped === true) {
+            this.game.plugins.ScreenShake.start(10);
+            this.game.sound.play('boom');
+          }
           dot.kill();
           this.board[i].splice(j,1);
           this.board[i].push(this.addDot());
@@ -140,6 +168,7 @@ Dots.prototype = {
         }
       }
     }
+    this.looped = false;
 
     this.moveCount += 1;
     return this.scoreList.length;

@@ -34,6 +34,8 @@ Game.Boot.prototype = {
     this.game.scale.setScreenSize(true);
 
 
+    this.game.load.image('twitter','assets/images/twitter.png');
+    this.game.load.image('clickHere','assets/images/clickhere.png');
   },
   create: function() {
    this.game.state.start('Load');
@@ -49,6 +51,11 @@ Game.Load.prototype = {
     
     //Debug Plugin
     this.game.add.plugin(Phaser.Plugin.Debug);
+
+
+    //Plugins
+    var screenShake = this.game.plugins.add(Phaser.Plugin.ScreenShake);
+    this.game.plugins.ScreenShake = screenShake;
 
     //Loading Screen Message/bar
     var loadingText = this.game.add.text(Game.w, Game.h, 'Loading...', { font: '30px Helvetica', fill: '#000' });
