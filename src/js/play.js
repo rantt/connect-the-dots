@@ -59,6 +59,11 @@ Game.Play.prototype = {
     this.scoreText.setText('Score: ' + this.dots.score);
     this.moveText.setText(this.dots.moveCount+'/'+this.dots.moveLimit);
 
+    if (this.dots.looped == true) {
+      this.game.stage.backgroundColor = '#FFFFFF';
+    }else {
+      this.game.stage.backgroundColor = '#000000';
+    }
     if (this.dots.moveCount === this.dots.moveLimit) {
       Game.score = this.dots.score;
       if (this.dots.score > this.highestScore) {
