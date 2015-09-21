@@ -186,8 +186,8 @@ Dots.prototype = {
     return dot;
   },
   drawBoard: function() {
-    if (this.drawing) {return;}
-    this.drawing = true; 
+    // if (this.drawing) {return;}
+    // this.drawing = true; 
 
     for(var i = 0; i < this.boardWidth;i++) {
       for(var j = 0;j < this.boardHeight;j++) {
@@ -201,9 +201,9 @@ Dots.prototype = {
         }
       }
     }
-    t.onComplete.add(function() {
-      this.drawing = false;
-    },this);
+    // t.onComplete.add(function() {
+    //   this.drawing = false;
+    // },this);
   },
   getPosition: function(dot) {
     //Iterate through game board until the the dot is found
